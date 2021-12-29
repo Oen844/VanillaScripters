@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+     <!-- link bootstrap -->
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <link rel="stylesheet" href="/css/game.css">
+    <title></title>
+</head>
+<body>
+
+     <!-- Navbar  -->
+     <nav class="navbar fixed-top navbar-expand-lg navbar-dark p-md-3 bg-dark shadow">
+        <div class="container">
+          <a id="usuario" class="navbar-brand" id="usuario" href="#">Usuario</a>
+          
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="mx-auto"></div>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link text-white" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white" href="#">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white" onclick="logout()" href="#" >Log out</a>
+              </li>
+             
+            </ul>
+          </div>
+        </div>
+      </nav>
+  <!-- Navbar  -->
+
+  <header id="room-name" class="titulo"></header>
+
+<div class="row mt-2">
+    <div id="divBotones" class="col text-center">
+
+        <button id="btnNuevo" disabled="disabled" class="btn btn-danger">Nuevo Juego</button>
+        <button id="btnPedir" disabled="disabled" class="btn btn-primary">Pedir carta</button>
+        <button id="btnDetener" disabled="disabled" class="btn btn-primary">Detener</button> 
+
+    </div>
+</div>
+
+<div class="row container">
+    <div class="col">
+        <h1><span id="player_1_name">Jugador 1</span> - <small>0</small></h1>
+        <div id="jugador-cartas" class="divCartas">
+            <!-- <img class="carta" src="assets/cartas/2C.png"> -->
+        </div>
+
+    </div>
+</div>
+
+<div class="row container mt-2">
+    <div class="col">
+        <h1><span id="player_2_name">Jugador 2</span> - <small>0</small></h1>
+        <div id="computadora-cartas" class="divCartas">
+            <!-- <img class="carta" src="assets/cartas/3C.png"> -->
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Scripts  -->
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/game.js"></script>
+<script src="/js/room.js"></script>
+
+<script src="/js/underscore-min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    
+  // inicializarJuego();
+  console.log( miModulo );
+
+  document.querySelector('#btnNuevo').addEventListener('click', () => {
+      miModulo.nuevoJuego();
+  })
+
+</script>
+    
+</body>
+</html>
+
