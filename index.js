@@ -1,218 +1,144 @@
-const jwt = require('jsonwebtoken');
-const { randomBytes } = require('crypto');
-const bcrypt = require('bcryptjs');
-require('dotenv').config();
-const User = require('./model/user');
-// var {UsersCollection, RoomsCollection} = require('./config/database');
-// const users = UsersCollection;
-// var rooms = RoomsCollection;
-const mongoConnect = require("./config/database").mongoConnect;
-const {loginActionTypes, errorTypes} = require('./config/types');
-var cookieParser = require('cookie-parser');
-const express = require('express');
-const app = express();
-app.set('view engine', 'ejs');
-app.use(cookieParser());
-app.use(express.static('public'));
-app.use(express.json());
-const auth = require("./middleware/auth");
+const http = require("http")
+const fs = require("fs")
+const url = require("url")
+const util = require("util")
+const formidable = require("formidable")
+const User = require("./models/user")
+const Game = require("./models/game")
+const Room = require("./models/room")
 
+// Users
 
-const { PORT } = process.env;
-const port = process.env.PORT || PORT;
+var user1 = new User()
+var user2 = new User()
+var user3 = new User()
 
-// Routes
-// Home
-app.get('/', auth, (req, res) => { 
-    res.render('pages/home');
-});
+user1.setUser("hector", "1111")
+user2.setUser("paco", "1111")
+user3.setUser("test", "1111")
+const users = [user1, user2, user3]
 
-app.get('/login', (req, res) => {
-  res.render('pages/login');
-});
+// Game
+let game = new Game()
 
-// Login
-app.post('/login', async (req, res) => {
-    const body = req.body;
-    const {action, username, email, password, avatar} = body;
-    
-    if(action === loginActionTypes.LOGIN){
-      
-      // Validate data
-      if (!(email && password)) {
-        res.status(400).json({error: errorTypes.MISSING_DATA});
-        return;
-      }
-      
-      // Validate if user exist in our database
-    
-      const user = new User();
-      
-      const currentUser = await user.getUserByEmail(email);
-      console.log(currentUser);
-      const userPassword = currentUser.password;
-                         
-      if (currentUser && password === userPassword) {
-        const id = currentUser._id.toString();
-        // Create token
-        const token = jwt.sign(
-          { user_id: id, email },
-          process.env.TOKEN_KEY,
-          {
-            expiresIn: "48h",
-          }
-        );
+// Rooms
+var roomWind = new Room()
+var roomFire = new Room()
 
-        // Save user token & avatar
-        let userAvatar = avatar ? avatar : "chico";
-        updateUserObj = {token: token, avatar: userAvatar};
-       
-        user.update(id, updateUserObj)
-        .then(result => console.log(result))
-        .catch(e => console.log(e))
-       
-        // user
-        let resData = {
-          id: id, 
-          username: currentUser.username, 
-          email: user.email, 
-          token: token,
-          avatar: userAvatar
-        };
-       
-        res.cookie('token', token);
-        res.status(200).json(resData);
+var roomWater = new Room()
+var roomEarth = new Room()
 
-      } else {
-        res.status(400).json({error: errorTypes.INVALID_CREDENTIALS});
-        return;
-      }
+roomWind.setRoom("wind", 0)
+roomFire.setRoom("fire", 0)
+roomWater.setRoom("water", 0)
+roomEarth.setRoom("earth", 0)
 
-    }
+const allRooms = [roomWind, roomFire, roomWater, roomEarth]
 
-    if(action === loginActionTypes.REGISTER){
+// Create the server
+const server = http.createServer((req, res) => {
+    // Path
+    const path = req.url
 
-      if (!(username && email && password)) {
-        res.status(400).json({error: errorTypes.MISSING_DATA});
-        return;
-      }
+    // Assets
 
-      // Init user object
-      let id = "";
-      let avatar = "chico";
-      var user = new User(id, username, email, password, null, avatar);
-      
-      // check if user already exist
-      const userExists = await user.getUserByEmail( email );
-      
-      if(userExists){
-        res.sendStatus(409).send({error: errorTypes.USER_EXISTS});
-      } else {
-  
-        user.save()
-        .then(result => {
-          id = result.insertedId.toString();
-      
-          // Create token
-          const token = jwt.sign(
-            { user_id: id, email },
-            process.env.TOKEN_KEY,
-            {
-              expiresIn: '48h',
+    // Routing
+
+    if (path === "/login") {
+        if (req.method === "POST") {
+            let form = new formidable.IncomingForm()
+            form.parse(req, function (err, fields, files) {
+                if (err) {
+                    console.log(err)
+                    return
+                }
+
+                userLogged = fields.user
+                passLogged = fields.password
+
+                users.forEach((user) => {
+                    if (
+                        user.username === userLogged &&
+                        user.password === passLogged
+                    ) {
+                        res.writeHead(202)
+                    }
+
+                    if (passLogged !== user.password) {
+                        res.writeHead(401)
+                    }
+                })
+            })
+        }
+        const index = fs.readFile(
+            `${__dirname}/templates/login.html`,
+            "utf8",
+            (error, data) => {
+                if (error) {
+                    console.log("Something was wrong!")
+                } else {
+                    res.end(data)
+                }
             }
-          );
-          res.cookie('token', token);
-          let resData = {
-            id: id,
-            username: username, 
-            email: email, 
-            token: token,
-            avatar: avatar
-          };
-          // Update
-          user.update(id, {token: token})
-          .then(result => console.log(result))
-          .catch(e => console.log(e))
-          res.status(201).json(resData);
-        })
-        .catch(error => console.log(error));
+        )
+    } else if (path === "/game") {
+        const index = fs.readFile(
+            `${__dirname}/templates/game.html`,
+            "utf8",
+            (error, data) => {
+                if (error) {
+                    console.log("Something was wrong!")
+                } else {
+                    res.end(data)
+                }
+            }
+        )
+        if (req.method === "POST") {
+            let form = new formidable.IncomingForm()
+            form.parse(req, function (err, fields, files) {
+                if (err) {
+                    console.log(err)
+                    return
+                }
+                let roomFrom = fields.roomFrom
+                console.log(`Viene de ${roomFrom}`)
+                let roomFor = fields.roomFor
+                console.log(`Va hacía de ${roomFor}`)
 
-      }
-      
+                allRooms.forEach((room) => {
+                    if (room.name === roomFor) {
+                        if (room.users < 2) {
+                            room.users++
+                            game.setGame(room.users, room.name, null)
+                            res.writeHead(202)
+                        } else {
+                            res.writeHead(401)
+                        }
+                    }
+                    if (room.name === roomFrom) {
+                        room.users--
+                    }
+                })
+                if (roomFor === "home") {
+                    console.log("va a home")
+                    res.writeHead(205)
+                }
+                console.log(allRooms)
+            })
+        }
+    } else if (path === "/endgame") {
+        if (req.method === "POST") {
+            res.writeHead(200)
+            res.end("End game")
+        } else {
+            res.status(400)
+        }
+    } else {
+        res.writeHead(404)
+        res.end("Page not found!")
     }
-  
-});
+})
 
-app.get('/logout', (req, res) => {
-  res.clearCookie('token');
-  res.redirect('/');
-  res.end();
-});
-
-app.get('/rooms', auth, async(req, res) => {
-  const room = new Room();
-  const rooms = await room.show();
-  res.status(200).json(rooms);
-});
-
-app.get('/rooms/:id/play', auth, (req, res) => {
-  // Se une usuario
-  // room_{id_sala}
-  let id = parseInt(req.params.id);
-  let room = new Room();
-  let roomData = room.getRoomById(id);
-  res.render('pages/game', roomData);
-});
-
-app.get('/rooms/:id', auth, async(req, res) => {
-  // Se une usuario
-  // room_{id_sala}
-  let id = parseInt(req.params.id);
-  let room = new Room();
-  let roomData = await room.getRoomById(id);
-  res.status(200).json(roomData);
-});
-
-app.get('/rooms/join/:roomId/:userId', auth, async(req, res) => {
-  let roomId = parseInt(req.params.roomId);
-  let userId = req.params.userId;
-  let user = new User();
-  let newPlayer = await user.getUserById(userId);
-  console.log(newPlayer);
-  let room = new Room();
-  let roomData = await room.getRoomById(roomId);
-  let currentPlayers = roomData.currentPlayers;
-  let maxPlayers = roomData.maxPlayers;
-  let userAlreadyJoined = currentPlayers.filter(player => player._id.toString() === newPlayer._id.toString()).length > 0;
-  let ableToJoin = maxPlayers > currentPlayers.length && !userAlreadyJoined;
- 
-  if(!ableToJoin){
-    res.status(400).json({error: errorTypes.NOT_ALLOWED});
-  }else{
-    roomData.currentPlayers.push(newPlayer);
-    room.update(roomId, roomData);
-    res.status(200).json(roomData);
-  }
-});
-
-
-mongoConnect(() => {});
-
-  const server = app.listen(port, () => console.log(`App listening on port ${port}!`));
-  const SocketIO = require('socket.io');
-const Room = require('./model/room');
-  const io = SocketIO(server);
-
-  io.on('connection', (socket)=>{
-    console.log('New Connection', socket.id);
-
-    socket.on('game:carta', (data)=>{
-      //io.sockets.emit('game:carta', data);
-      socket.broadcast.emit('game:carta', data);
-      console.log(data);
-    })
-  });   
-
-
-
-
+server.listen(3001, "127.0.0.1", () => {
+    console.log("server on!")
+})

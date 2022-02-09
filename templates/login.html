@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <!-- Bootstrap CSS -->
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous"
+        />
+        <style>
+            .bg {
+                background-color: #5f6661;
+                width: 100%;
+                height: 100vh;
+                background-size: 100%;
+            }
+
+            .form-container {
+                position: absolute;
+                top: 15vh;
+                background-color: grey;
+                padding: 10px;
+                border: none;
+                border-radius: 10px;
+                box-shadow: 0px 0px 10px 0px black;
+            }
+            .avatars {
+                border-radius: 10px;
+                outline: none;
+            }
+            .avatars:focus {
+                border: 2px solid red;
+                outline: none;
+            }
+        </style>
+
+        <title>Javascripters</title>
+    </head>
+
+    <body>
+        <main>
+            <div class="container-fluid bg">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-sm-8 col-md-4">
+                        <form
+                            action="/"
+                            method="POST"
+                            id="loginForm"
+                            class="form-container"
+                        >
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="username"
+                                    aria-describedby="userHelp"
+                                    placeholder="Enter username"
+                                    value=""
+                                    required
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input
+                                    type="password"
+                                    class="form-control"
+                                    id="password"
+                                    placeholder="Password"
+                                    required
+                                />
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label
+                                        class="input-group-text"
+                                        for="gameRoom"
+                                        >Game Room</label
+                                    >
+                                </div>
+                                <select class="custom-select" id="gameRoom">
+                                    <option selected>Choose...</option>
+                                    <option value="Water">Water</option>
+                                    <option value="Fire">Fire</option>
+                                    <option value="Earth">Earth</option>
+                                    <option value="Wind">Wind Room</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <h5>Please select an avatar:</h5>
+                                <label class="avatars">
+                                    <button
+                                        type="button"
+                                        class="avatars"
+                                        id="avatar1"
+                                    >
+                                        <img
+                                            src="https://robohash.org/V4T.png?size=50x50&set=set1"
+                                            alt=""
+                                            id="avatarSRC"
+                                        />
+                                    </button>
+                                </label>
+                                <label class="avatars">
+                                    <button
+                                        type="button"
+                                        id="avatar2"
+                                        class="avatars"
+                                    >
+                                        <img
+                                            src="https://robohash.org/K57.png?size=50x50&set=set1"
+                                            alt=""
+                                            id="avatar2"
+                                        />
+                                    </button>
+                                </label>
+                                <label class="avatars">
+                                    <button
+                                        class="avatars"
+                                        type="button"
+                                        id="avatar3"
+                                    >
+                                        <img
+                                            src="https://robohash.org/99U.png?size=50x50&set=set1"
+                                            alt=""
+                                            id="avatar2"
+                                        />
+                                    </button>
+                                </label>
+                                <label class="avatars">
+                                    <button
+                                        type="button"
+                                        id="avatar4"
+                                        class="avatars"
+                                    >
+                                        <img
+                                            src="https://robohash.org/NHM.png?size=50x50&set=set1"
+                                            alt=""
+                                            id="avatar2"
+                                        />
+                                    </button>
+                                </label>
+                            </div>
+
+                            <button
+                                id="submit"
+                                type="submit"
+                                class="btn btn-dark btn-block"
+                            >
+                                Register
+                            </button>
+                            <div
+                                class="alert alert-danger mt-3"
+                                role="alert"
+                                id="invalid"
+                            >
+                                Invalid credentials
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+        <script
+            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"
+        ></script>
+        <script>
+            let username = document.querySelector("#username")
+            let password = document.querySelector("#password")
+            let submit = document.querySelector("#submit")
+
+            const gameRoom = document.getElementById("gameRoom")
+            gameRoom.addEventListener("change", function () {
+                localStorage.setItem("gameRoom", this.value)
+            })
+
+            let avatar1 = document.getElementById("avatar1")
+            avatar1.addEventListener("click", function () {
+                localStorage.setItem("avatar", avatar1.children[0].currentSrc)
+                avatarSelected = avatar1.children[0].currentSrc
+            })
+            let avatar2 = document.getElementById("avatar2")
+            avatar2.addEventListener("click", function () {
+                localStorage.setItem("avatar", avatar2.children[0].currentSrc)
+                avatarSelected = avatar2.children[0].currentSrc
+            })
+            let avatar3 = document.getElementById("avatar3")
+            avatar3.addEventListener("click", function () {
+                localStorage.setItem("avatar", avatar3.children[0].currentSrc)
+                avatarSelected = avatar3.children[0].currentSrc
+            })
+            let avatar4 = document.getElementById("avatar4")
+            avatar4.addEventListener("click", function (event) {
+                localStorage.setItem("avatar", avatar4.children[0].currentSrc)
+                avatarSelected = avatar4.children[0].currentSrc
+            })
+
+            document.getElementById("invalid").style.display = "none"
+
+            username.addEventListener("change", (event) => {
+                localStorage.setItem("user", event.target.value)
+            })
+
+            submit.addEventListener("click", async (event) => {
+                event.preventDefault()
+                var registered = false
+                if (username.value !== null && password.value !== null) {
+                    fetch("/login", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        credentials: "same-origin",
+                        body: JSON.stringify({
+                            user: username.value,
+                            password: password.value,
+                        }),
+                    }).then(
+                        await function (res) {
+                            if (res.status === 202) {
+                                console.log("Registered")
+                                registered = true
+                                if (registered) {
+                                    window.location.replace(
+                                        "http://localhost:3001/game"
+                                    )
+                                }
+                            } else {
+                                document.getElementById(
+                                    "invalid"
+                                ).style.display = "inherit"
+                                document.getElementById("invalid").style.color =
+                                    "red"
+                            }
+                        }
+                    )
+                } else {
+                    alert("Error on Login, please check your credentials")
+                }
+            })
+        </script>
+    </body>
+</html>
