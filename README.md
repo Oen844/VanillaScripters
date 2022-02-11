@@ -29,10 +29,11 @@ base de datos NoSQL.
 ## DEPLOY :rocket:
 Comparto una app sin acceso a base de datos y persistencia para hacer una pequeña demo.
 
+[LinkApp](https://mi-app-guay.herokuapp.com/)
 
 #### AUTHORS :monkey:
 
-[LinkApp](https://mi-app-guay.herokuapp.com/)
+
 ---
 
 - **José Luis Moreno Muñoz** 🐛[Git account](https://github.com/jmorenomun) 🐛
