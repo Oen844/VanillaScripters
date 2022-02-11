@@ -1,0 +1,71 @@
+  <!DOCTYPE html>
+  <html lang="es">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Home</title>
+  
+      <!-- link bootstrap -->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <link rel="stylesheet" href="/css/home.css">
+        
+    
+    </head>
+    <body>
+      <!-- Navbar  -->
+      <nav class="navbar fixed-top navbar-expand-lg navbar-dark p-md-3 bg-dark shadow">
+        <div class="container">
+          <a id="usuario" class="navbar-brand" id="usuario" href="#">Usuario</a>
+          
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="mx-auto"></div>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link text-white" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white" href="#">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white" onclick="logout()" href="#" >Log out</a>
+              </li>
+             
+            </ul>
+          </div>
+        </div>
+      </nav>
+  <!-- Navbar  -->
+  
+  <div class="containerGame">
+    <div id="boxAvatar" class="card"   style="width: 18rem;">
+      
+        <img id="avatarImage" class="card-img-top"  alt="Card image cap">
+      
+      <div class="card-body">
+        <h5 class="card-title">Bienvenido</h5>
+        <p class="card-text">Arrastra tu perfil a una sala</p>
+        
+      </div>
+    </div>
+  
+    <div id="rooms">
+      
+  </div>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/home.js"></script>
+    <script src="/js/boton.js"></script>
+    </body>
+  </html>
+  
