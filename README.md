@@ -26,8 +26,13 @@ diversas APIs HTML5 y Bootstrap. El Backend está desarrollado en NodeJS y defin
 una API REST. Los datos de las puntuaciones se almacenarán en MongoDB, una
 base de datos NoSQL.
 
+## DEPLOY :rocket:
+Comparto una app sin acceso a base de datos y persistencia para hacer una pequeña demo.
+
+
 #### AUTHORS :monkey:
 
+[LinkApp](https://mi-app-guay.herokuapp.com/)
 ---
 
 - **José Luis Moreno Muñoz** 🐛[Git account](https://github.com/jmorenomun) 🐛
